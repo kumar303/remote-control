@@ -46,7 +46,7 @@ class Popup extends React.Component {
     const {code} = this.state;
     return (
       <div>
-        {code ? code : 'Waiting for code...'}
+        <code>{code ? code : 'Waiting for code...'}</code>
       </div>
     );
   }

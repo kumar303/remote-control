@@ -2,34 +2,23 @@ import firebase from './lib/firebase';
 
 class Background {
   constructor() {
-    const db = firebase.database();
-    console.log('background', db);
+    this.db = firebase.database();
+    console.log('background', this.db);
 
+    // TODO: replace Ls and Is?
     this.code = Math.random().toString(36).substr(2, 5).toLowerCase();
     console.log('background: code', this.code);
 
-    const channel = `v1/${this.code}`;
-    db.ref(channel).on('value', (snapshot) => {
+    const channel = `v1/${this.code}/muteAction`;
+    this.db.ref(channel).on('value', (snapshot) => {
       const message = snapshot.val();
       if (!message) {
         return;
       }
-      console.log(`Received message in ${channel}`, message);
-      if (message.action && message.action === 'mute') {
-        console.log('toggling mute');
-
-        chrome.tabs.update({active: true, muted: true}, () => {
-          if (chrome.runtime.lastError) {
-            console.log(
-              `background: mute: error:`, chrome.runtime.lastError);
-            return;
-          }
-
-          //this.db.ref(`v1/${this.code}`).set({
-          //  tabState: 'muted';
-          //});
-
-        });
+      console.log(`background: received message on channel ${channel}`,
+                  message);
+      if (message.toggleMute) {
+        this.onToggleMute(message);
       }
     });
 
@@ -55,6 +44,62 @@ class Background {
         });
 
       return true;
+    });
+  }
+
+  isTabMuted(tab) {
+    return tab.mutedInfo && tab.mutedInfo.muted;
+  }
+
+  getActiveTab() {
+    return this.queryTabs({active: true})
+      .then(tabs => {
+        const activeTab = tabs[0];
+        return activeTab;
+      });
+  }
+
+  onToggleMute(message) {
+    console.log('toggling mute', message.toggleMute);
+
+    return this.getActiveTab()
+      .then(activeTab => {
+        const isMuted = this.isTabMuted(activeTab);
+        console.log('Current tab is muted?', isMuted);
+        return this.updateTabs({active: true, muted: !isMuted});
+      })
+      .then(() => this.getActiveTab())
+      .then(activeTab => {
+        const channel = `v1/${this.code}/muteInfo`;
+        return this.db.ref(channel).set({
+          tabIsMuted: this.isTabMuted(activeTab),
+        });
+      });
+  }
+
+  updateTabs(...args) {
+    return new Promise((resolve, reject) => {
+      chrome.tabs.update(...args, result => {
+        if (chrome.runtime.lastError) {
+          console.error(
+            `background: updateTabs: error:`, chrome.runtime.lastError);
+          return reject(chrome.runtime.lastError);
+        }
+        resolve(result);
+      });
+    });
+  }
+
+  queryTabs(query) {
+    return new Promise((resolve, reject) => {
+      chrome.tabs.query(query, tabs => {
+        if (chrome.runtime.lastError) {
+          console.error(
+            `background: queryTabs: error:`, chrome.runtime.lastError);
+          return reject(chrome.runtime.lastError);
+        }
+        resolve(tabs);
+      });
     });
   }
 
