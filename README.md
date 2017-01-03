@@ -54,3 +54,7 @@ changed.
 * View the remote control page by opening
   `remote-control/index.html` in a browser
 * Deploy a new version by typing `npm run push-remote`
+
+## Icons
+
+The icons for this extension are provided by [icons8](https://icons8.com/).

@@ -8,8 +8,8 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": {
-      "48": "images/Boombox_48.png",
-      "96": "images/Boombox_96.png"
+      "48": "images/RemoteControl-48.png",
+      "96": "images/RemoteControl-96.png"
     },
     "default_title": "Remote Control",
     "default_popup": "popup.html"
