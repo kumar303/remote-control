@@ -11,7 +11,7 @@ It's probably broken by the time you read this but I swear it used to work.
 Instructions:
 * Install the Firefox/Chrome extension.
 * Click the browser action and you'll see a five character code.
-* Open a web page on your phone.
+* Open [bit.ly/rem-c](http://bit.ly/rem-c) on your phone.
 * Type in the code.
 * Press the mute / unmute button as needed.
 

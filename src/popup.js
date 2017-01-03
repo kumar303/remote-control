@@ -46,6 +46,7 @@ class Popup extends React.Component {
     const {code} = this.state;
     return (
       <div>
+        <p>Go to <b>bit.ly/rem-c</b> and enter:</p>
         <code>{code ? code : 'Waiting for code...'}</code>
       </div>
     );
