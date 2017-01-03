@@ -1,0 +1,15 @@
+body {
+  font-size: 5em;
+}
+
+input, button {
+  text-align: center;
+  display: block;
+  width: 80%;
+  height: 30%;
+  margin: 10%;
+}
+
+button {
+  padding: 1em;
+}

@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "name": "Remote Control",
+  "description": "Control browser audio from a mobile phone.",
+  "homepage_url": "https://github.com/kumar303/remote-control/",
+  "author": "Kumar McMillan",
+
+  "browser_action": {
+    "browser_style": false,
+    "default_icon": {
+      "48": "images/Boombox_48.png",
+      "96": "images/Boombox_96.png"
+    },
+    "default_title": "Remote Control",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": ["dist/background.js"]
+  },
+
+  "permissions": ["activeTab"],
+
+  "manifest_version": 2
+}

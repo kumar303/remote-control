@@ -1,0 +1,9 @@
+# OSX
+.DS_Store
+
+# Build artifacts.
+extension/dist
+remote-control/dist
+node_modules
+web-ext-artifacts
+npm-debug.log
