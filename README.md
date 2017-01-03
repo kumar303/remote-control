@@ -51,4 +51,6 @@ changed.
 
 ### The remote control bit
 
-Just open `remote-control/index.html` in a browser.
+* View the remote control page by opening
+  `remote-control/index.html` in a browser
+* Deploy a new version by typing `npm run push-remote`
