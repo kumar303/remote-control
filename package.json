@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack -w -v --display-error-details --progress --colors",
     "build-once": "webpack -v --display-error-details --progress --colors",
-    "push-remote": "./bin/push-remote-control.sh",
+    "push-remote": "npm run build-once && ./bin/push-remote-control.sh",
     "start": "web-ext run -s extension/ --firefox=firefoxdeveloperedition",
     "pkg": "npm run build-once && web-ext build -s extension/"
   },

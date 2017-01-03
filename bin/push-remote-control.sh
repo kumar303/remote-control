@@ -1,5 +1,4 @@
 #!/bin/bash
-./build.sh
 if [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
     git status
     echo "---------------------------------------------------------"
