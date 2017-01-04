@@ -1,13 +1,17 @@
 body {
-  font-size: 5em;
+  font-size: 2em;
+  margin: 0;
+  padding: 1em;
+  display: flex;
+  height: 70vh;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 input, button {
   text-align: center;
   display: block;
-  width: 80%;
-  height: 30%;
-  margin: 10%;
+  width: 100%;
 }
 
 button {
