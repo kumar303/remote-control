@@ -7,6 +7,7 @@ module.exports = {
     'extension/dist/popup': './src/popup',
     'remote-control/dist/remote-control': './src/remote-control',
   },
+  minimize: false,
   output: {
     path: './',
     filename: '[name].js',
@@ -30,6 +31,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false }
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
