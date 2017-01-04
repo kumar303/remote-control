@@ -2,11 +2,11 @@
 
 Mute your web browser from your phone.
 
-I watch TV on a web browser (from my couch) and the ads are always
-insanely loud (WTF!) so I wanted to mute the ads.
-I guess I should get a proper box or something but, whatever, I hacked
-the first working prototype of this in less than 2 hours.
-It's probably broken by the time you read this but I swear it used to work.
+I watch TV on my web browser (from the couch) and the ads are always
+insanely loud and annoying so I made this thing.
+I guess I should get a proper TV or something but, whatever, this works.
+Well, it's probably broken by the time you read this but
+I swear it used to work!
 
 Instructions:
 * Install the Firefox extension from the `extension-dist` folder.
@@ -14,6 +14,9 @@ Instructions:
 * Open [bit.ly/rem-c](http://bit.ly/rem-c) on your phone.
 * Type in the code.
 * Press the mute / unmute button as needed.
+
+Maybe I'll think of a better way to sync the two devices because codes
+are annoying.
 
 ## Development tips
 
