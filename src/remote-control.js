@@ -52,7 +52,7 @@ class RemoteControl extends React.Component {
     return (
       <input
         onKeyUp={this.onEnterCodeChar}
-        type="text" placeholder="Enter code" />
+        autocomplete="off" type="text" placeholder="Enter code" />
     );
   }
 
