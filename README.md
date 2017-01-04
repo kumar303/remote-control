@@ -28,7 +28,7 @@ Start the source builder in your terminal:
 
     npm run build
 
-## Development in Firefox
+### Development in Firefox
 
 Make sure you have
 [Firefox Developer Edition](https://www.mozilla.org/en-US/firefox/channel/desktop/)
@@ -37,7 +37,7 @@ Type this in a shell to launch the extension:
 
     npm start
 
-## Development in Chrome
+### Development in Chrome
 
 * Open Chrome
 * Go to Window > Extensions
@@ -54,6 +54,16 @@ changed.
 * View the remote control page by opening
   `remote-control/index.html` in a browser
 * Deploy a new version by typing `npm run push-remote`
+
+## Distribution
+
+Currently, the extension is self-signed for testing purposes.
+You can install it in Firefox from the `extension-dist` directory.
+
+To create a new distribution, build the package like this:
+
+    export WEB_EXT_API_KEY=user:... WEB_EXT_API_SECRET=a44f...
+    npm run make-alpha-dist
 
 ## Icons
 
