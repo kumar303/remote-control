@@ -54,7 +54,7 @@ class Background {
   }
 
   getActiveTab() {
-    return this.queryTabs({active: true})
+    return this.queryTabs({active: true, currentWindow: true})
       .then(tabs => {
         const activeTab = tabs[0];
         return activeTab;

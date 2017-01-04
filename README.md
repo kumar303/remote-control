@@ -9,7 +9,7 @@ the first working prototype of this in less than 2 hours.
 It's probably broken by the time you read this but I swear it used to work.
 
 Instructions:
-* Install the Firefox/Chrome extension.
+* Install the Firefox extension from the `extension-dist` folder.
 * Click the browser action and you'll see a five character code.
 * Open [bit.ly/rem-c](http://bit.ly/rem-c) on your phone.
 * Type in the code.
