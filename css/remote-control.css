@@ -1,7 +1,5 @@
-body {
+#app {
   font-size: 2em;
-  margin: 0;
-  padding: 1em;
   display: flex;
   height: 70vh;
   align-items: flex-end;
@@ -11,7 +9,7 @@ body {
 input, button {
   text-align: center;
   display: block;
-  width: 100%;
+  width: 80vw;
 }
 
 button {
