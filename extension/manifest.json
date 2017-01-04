@@ -1,5 +1,5 @@
 {
-  "version": "0.0.2",
+  "version": "0.0.3",
   "name": "Remote Control (Alpha)",
   "description": "Control browser audio from a mobile phone.",
   "homepage_url": "https://github.com/kumar303/remote-control/",
@@ -19,7 +19,7 @@
     "scripts": ["dist/background.js"]
   },
 
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "tabs"],
 
   "manifest_version": 2
 }
