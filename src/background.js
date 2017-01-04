@@ -9,6 +9,8 @@ class Background {
     this.code = Math.random().toString(36).substr(2, 5).toLowerCase();
     console.log('background: code', this.code);
 
+    chrome.tabs.onUpdated.addListener(this.onTabUpdated);
+
     const channel = `v1/${this.code}/muteAction`;
     this.db.ref(channel).on('value', (snapshot) => {
       const message = snapshot.val();
@@ -67,14 +69,19 @@ class Background {
         const isMuted = this.isTabMuted(activeTab);
         console.log('Current tab is muted?', isMuted);
         return this.updateTabs({active: true, muted: !isMuted});
-      })
-      .then(() => this.getActiveTab())
-      .then(activeTab => {
-        const channel = `v1/${this.code}/muteInfo`;
-        return this.db.ref(channel).set({
-          tabIsMuted: this.isTabMuted(activeTab),
-        });
       });
+  }
+
+  onTabUpdated = (tabId, changeInfo, tab) => {
+    if (!tab.active) {
+      return;
+    }
+    const channel = `v1/${this.code}/muteInfo`;
+    const isMuted = this.isTabMuted(tab);
+    console.log('onTabUpdated: current tab is muted?', isMuted);
+    return this.db.ref(channel).set({
+      tabIsMuted: isMuted,
+    });
   }
 
   updateTabs(...args) {
