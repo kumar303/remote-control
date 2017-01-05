@@ -46,6 +46,9 @@ class Connection {
 
   shutdown() {
     console.log('background: shutting down connection');
+    this.db.ref(`v1/${this.code}/connection`).set({
+      heartbeat: false,
+    });
     this.db.ref(this.channel).off('value', this.onDbValue);
     chrome.tabs.onUpdated.removeListener(this.onTabUpdated);
   }
