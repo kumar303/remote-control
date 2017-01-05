@@ -97,6 +97,7 @@
 	    };
 	
 	    _this.state = {
+	      error: null,
 	      code: null,
 	      tabIsMuted: false
 	    };
@@ -110,17 +111,32 @@
 	    value: function setCode(code) {
 	      var _this2 = this;
 	
-	      var channel = 'v1/' + code + '/muteInfo';
-	      this.db.ref(channel).on('value', function (snapshot) {
+	      return this.db.ref('v1/' + code + '/connection').once('value').then(function (snapshot) {
 	        var message = snapshot.val();
-	        if (!message) {
+	        console.log('remote: connection message:', message);
+	        // Just check that the connection has a heartbeat.
+	        if (message && message.heartbeat) {
+	          // TODO: maybe check the timestamp of the heartbeat.
 	          return;
+	        } else {
+	          throw new Error('Code ' + code + ' is invalid');
 	        }
-	        console.log('remote: received message on channel ' + channel, message);
-	        _this2.setState({ tabIsMuted: message.tabIsMuted });
-	      });
+	      }).then(function () {
+	        // TODO: make this listener diconnectable (for removal onDisconnect)
+	        var channel = 'v1/' + code + '/muteInfo';
+	        _this2.db.ref(channel).on('value', function (snapshot) {
+	          var message = snapshot.val();
+	          if (!message) {
+	            return;
+	          }
+	          console.log('remote: received message on channel ' + channel, message);
+	          _this2.setState({ tabIsMuted: message.tabIsMuted });
+	        });
 	
-	      this.setState({ code: code });
+	        _this2.setState({ error: null, code: code });
+	      }).catch(function (error) {
+	        _this2.setState({ error: error.toString() });
+	      });
 	    }
 	  }, {
 	    key: 'renderEnterCode',
@@ -145,7 +161,9 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var code = this.state.code;
+	      var _state = this.state,
+	          error = _state.error,
+	          code = _state.code;
 	
 	      var content = void 0;
 	      if (code) {
@@ -156,6 +174,11 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
+	        error ? _react2.default.createElement(
+	          'div',
+	          { className: 'error' },
+	          error
+	        ) : null,
 	        content
 	      );
 	    }
