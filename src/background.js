@@ -23,7 +23,10 @@ class Connection {
     if (!tab.active) {
       return;
     }
-    // TODO: ignore changeInfo that's not for mute/unmute
+    if (!changeInfo.mutedInfo) {
+      console.log('background: ignoring changeInfo', changeInfo);
+      return;
+    }
     const channel = `v1/${this.code}/muteInfo`;
     const isMuted = isTabMuted(tab);
     console.log('onTabUpdated: current tab is muted?', isMuted);
