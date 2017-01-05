@@ -13,6 +13,11 @@ class Connection {
     this.code = Math.random().toString(36).substr(2, 5).toLowerCase();
     console.log('background: starting new connection with code:', this.code);
 
+    this.db.ref(`v1/${this.code}/connection`).set({
+      // TODO: maybe turn this into a timestamp and update it periodically.
+      heartbeat: true,
+    });
+
     this.channel = `v1/${this.code}/muteAction`;
     this.db.ref(this.channel).on('value', this.onDbValue);
 

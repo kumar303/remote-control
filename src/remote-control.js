@@ -7,6 +7,7 @@ class RemoteControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
       code: null,
       tabIsMuted: false,
     };
@@ -34,18 +35,36 @@ class RemoteControl extends React.Component {
   }
 
   setCode(code) {
-    const channel = `v1/${code}/muteInfo`;
-    this.db.ref(channel).on('value', (snapshot) => {
-      const message = snapshot.val();
-      if (!message) {
-        return;
-      }
-      console.log(`remote: received message on channel ${channel}`,
-                  message);
-      this.setState({tabIsMuted: message.tabIsMuted});
-    });
+    return this.db.ref(`v1/${code}/connection`).once('value')
+      .then(snapshot => {
+        const message = snapshot.val();
+        console.log('remote: connection message:', message);
+        // Just check that the connection has a heartbeat.
+        if (message && message.heartbeat) {
+          // TODO: maybe check the timestamp of the heartbeat.
+          return;
+        } else {
+          throw new Error(`Code ${code} is invalid`);
+        }
+      })
+      .then(() => {
+        // TODO: make this listener diconnectable (for removal onDisconnect)
+        const channel = `v1/${code}/muteInfo`;
+        this.db.ref(channel).on('value', (snapshot) => {
+          const message = snapshot.val();
+          if (!message) {
+            return;
+          }
+          console.log(`remote: received message on channel ${channel}`,
+                      message);
+          this.setState({tabIsMuted: message.tabIsMuted});
+        });
 
-    this.setState({code});
+        this.setState({error: null, code});
+      })
+      .catch(error => {
+        this.setState({error: error.toString()});
+      });
   }
 
   renderEnterCode() {
@@ -64,7 +83,7 @@ class RemoteControl extends React.Component {
   }
 
   render() {
-    const {code} = this.state;
+    const {error, code} = this.state;
     let content;
     if (code) {
       content = this.renderMuteControl();
@@ -73,6 +92,7 @@ class RemoteControl extends React.Component {
     }
     return (
       <div>
+        {error ? <div className="error">{error}</div> : null}
         {content}
       </div>
     );

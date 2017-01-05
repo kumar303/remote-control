@@ -15,3 +15,10 @@ input, button {
 button {
   padding: 1em;
 }
+
+.error {
+  text-align: center;
+  align-self: flex-start;
+  background: red;
+  color: white;
+}
