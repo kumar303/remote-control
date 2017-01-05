@@ -5,17 +5,15 @@ class Popup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isOn: false,
       code: null,
     };
   }
 
   componentDidMount() {
     console.log('popup: componentDidMount()');
-    this.sendToBackground({action: 'getCode'})
-      .then(message => {
-        const code = message.data;
-        this.setState({code});
-      });
+
+    this.getStatus();
   }
 
   sendToBackground(message) {
@@ -42,12 +40,56 @@ class Popup extends React.Component {
     });
   }
 
+  getStatus() {
+    this.sendToBackground({action: 'getStatus'})
+      .then(message => {
+        const {isOn} = message.data;
+        return {isOn};
+      })
+      .then(({isOn}) => {
+        if (isOn) {
+          return this.sendToBackground({action: 'getCode'})
+            .then(message => {
+              const code = message.data;
+              return {isOn, code};
+            })
+        }
+        return {isOn};
+      })
+      .then(state => {
+        this.setState(state);
+      });
+  }
+
+  toggleOnOff = (event) => {
+    event.preventDefault();
+    this.sendToBackground({action: 'toggleOnOff'})
+      .then(() => this.getStatus());
+  }
+
   render() {
-    const {code} = this.state;
+    const {isOn, code} = this.state;
+    let content;
+
+    if (isOn) {
+      content = (
+        <div>
+          <p>Go to <b>bit.ly/rem-c</b> and enter:</p>
+          <code>{code ? code : 'Waiting for code...'}</code>
+        </div>
+      );
+    } else {
+      content = <p>The remote control is currently deactivated</p>;
+    }
+
+
+    const onOffPrompt = isOn ? 'Turn off the remote' : 'Turn on the remote';
     return (
       <div>
-        <p>Go to <b>bit.ly/rem-c</b> and enter:</p>
-        <code>{code ? code : 'Waiting for code...'}</code>
+        {content}
+        <footer>
+          <button onClick={this.toggleOnOff}>{onOffPrompt}</button>
+        </footer>
       </div>
     );
   }
