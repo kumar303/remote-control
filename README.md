@@ -1,5 +1,7 @@
 # Remote Control
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kumar303/remote-control.svg)](https://greenkeeper.io/)
+
 Mute your web browser from your phone.
 
 I watch TV on my web browser (from the couch) and the ads are always
